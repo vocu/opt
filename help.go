@@ -23,6 +23,8 @@ func (parser *command) Usage() {
 
 	// TEST
 	//s += "[" + ColorOption + "options" + End + "] [" + ColorCommand + "command" + End + "] [" + ColorArgs + "args" + End + "]"
+	// maybe go mod <command> [arguments]
+	// maybe prog [options] <command>
 	//Println(s, GlossaryOffset)
 	//return
 	// TEST END
