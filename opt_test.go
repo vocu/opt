@@ -17,7 +17,7 @@ func TestParsedDashDash(t *testing.T) {
 func Test1(t *testing.T) {
 	parser := New("")
 	want := true
-	verbose := parser.Flag(false, "verbose", "v", "be verbose")
+	verbose := parser.Flag("verbose", "v", "be verbose")
 	parser.Parse([]string{"-v"})
 	got := *verbose
 	if got != want {
@@ -28,7 +28,7 @@ func Test1(t *testing.T) {
 func Test2(t *testing.T) {
 	parser := New("")
 	want := true
-	verbose := parser.Flag(false, "verbose", "v", "be verbose")
+	verbose := parser.Flag("verbose", "v", "be verbose")
 	parser.Parse([]string{"--verbose"})
 	got := *verbose
 	if got != want {
@@ -63,7 +63,7 @@ func Test5(t *testing.T) {
 	want1 := 69
 	want2 := true
 	number := parser.Option(0, "number", "i", "a number", "<number>", false)
-	verbose := parser.Flag(false, "verbose", "v", "be verbose")
+	verbose := parser.Flag("verbose", "v", "be verbose")
 	parser.Parse([]string{"--number", "69", "-v"})
 	got1 := *number
 	got2 := *verbose
@@ -103,7 +103,7 @@ func Test8(t *testing.T) {
 	want2 := true
 	want3 := "word"
 	number := parser.Option(0, "number", "i", "a number", "<number>", false)
-	verbose := parser.Flag(false, "verbose", "v", "be verbose")
+	verbose := parser.Flag("verbose", "v", "be verbose")
 	text := parser.Option("", "text", "t", "a text", "<string>", false)
 	parser.Parse([]string{"--number", "69", "-v", "--text=word"})
 	got1 := *number
@@ -124,8 +124,8 @@ func Test9(t *testing.T) {
 	parser := New("")
 	want1 := true
 	want2 := true
-	optionA := parser.Flag(false, "optionA", "a", "")
-	optionB := parser.Flag(false, "optionB", "b", "")
+	optionA := parser.Flag("optionA", "a", "")
+	optionB := parser.Flag("optionB", "b", "")
 	parser.Parse([]string{"-ab"})
 	got1 := *optionA
 	got2 := *optionB
@@ -142,9 +142,9 @@ func Test10(t *testing.T) {
 	want1 := true
 	want2 := true
 	want3 := true
-	a := parser.Flag(false, "aa", "a", "")
-	b := parser.Flag(false, "aa", "b", "")
-	c := parser.Flag(false, "bb", "c", "")
+	a := parser.Flag("aa", "a", "")
+	b := parser.Flag("aa", "b", "")
+	c := parser.Flag("bb", "c", "")
 	parser.Parse([]string{"-abc"})
 	got1 := *a
 	got2 := *b
@@ -201,10 +201,10 @@ func Test12(t *testing.T) {
 	str1 := parser.Option("empty", "str1", "", "", "", false)
 	str2 := parser.Option("empty", "str2", "", "", "", false)
 	str3 := parser.Option("empty", "", "s", "", "", false)
-	bool1 := parser.Flag(false, "", "x", "")
-	bool2 := parser.Flag(false, "", "y", "")
-	bool3 := parser.Flag(false, "", "z", "")
-	bool4 := parser.Flag(false, "bool", "", "")
+	bool1 := parser.Flag("", "x", "")
+	bool2 := parser.Flag("", "y", "")
+	bool3 := parser.Flag("", "z", "")
+	bool4 := parser.Flag("bool", "", "")
 	parser.Parse([]string{"-xyc", "3", "-zs", "str3", "--number=1", "-c=3", "--str1=str1", "--str2", "str2", "--bool", "-b=2"})
 	got1 := *number1
 	got2 := *number2
@@ -255,9 +255,9 @@ func Test13(t *testing.T) {
 	want3 := true
 	want4 := 11
 	want5 := 22
-	a := parser.Flag(false, "aa", "a", "")
-	b := parser.Flag(false, "aa", "b", "")
-	c := parser.Flag(false, "bb", "c", "")
+	a := parser.Flag("aa", "a", "")
+	b := parser.Flag("aa", "b", "")
+	c := parser.Flag("bb", "c", "")
 	x := parser.Option(0, "", "x", "", "", false)
 	y := parser.Option(0, "", "y", "", "", false)
 	parser.Parse([]string{"-abx=11", "-cy", "22"})
@@ -287,7 +287,7 @@ func Test14(t *testing.T) {
 	parser := New("test")
 	want1 := "arg1"
 	want2 := true
-	verbose := parser.Flag(false, "verbose", "v", "be verbose")
+	verbose := parser.Flag("verbose", "v", "be verbose")
 	parser.Parse([]string{"arg1", "-v"})
 	got1 := parser.Args[0]
 	got2 := *verbose
@@ -304,7 +304,7 @@ func Test15(t *testing.T) {
 	want1 := "arg1"
 	want2 := "-v"
 	want3 := true
-	verbose := parser.Flag(false, "verbose", "v", "be verbose")
+	verbose := parser.Flag("verbose", "v", "be verbose")
 	parser.Parse([]string{"arg1", "-v", "--", "-v"})
 	got1 := parser.Args[0]
 	got2 := parser.Args[1]
@@ -393,9 +393,9 @@ func Test20(t *testing.T) {
 	want1 := true
 	want2 := true
 	want3 := true
-	a := p.Flag(false, "", "a", "")
-	b := p.Flag(false, "", "b", "")
-	c := p.Flag(false, "", "c", "")
+	a := p.Flag("", "a", "")
+	b := p.Flag("", "b", "")
+	c := p.Flag("", "c", "")
 	p.Parse([]string{"-abc"})
 	got1 := *a
 	got2 := *b

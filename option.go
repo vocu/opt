@@ -35,7 +35,7 @@ type flag struct {
 }
 
 // Flag adds a flag.
-func (c *command) Flag(val bool, name string, abbr string, help string) *bool {
+func (c *command) Flag(name string, abbr string, help string) *bool {
 	if abbr != "" {
 		c.gotAbbr = true
 		c.usgShortFlags += abbr
@@ -54,7 +54,7 @@ func (c *command) Flag(val bool, name string, abbr string, help string) *bool {
 		c.longest = checkLength
 	}
 
-	c.flags = append(c.flags, &flag{val, name, abbr, help})
+	c.flags = append(c.flags, &flag{false, name, abbr, help})
 	return &c.flags[len(c.flags)-1].val
 }
 
