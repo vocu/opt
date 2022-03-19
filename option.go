@@ -35,12 +35,12 @@ type flag struct {
 }
 
 // Flag adds a flag.
-func (parser *command) Flag(val bool, name string, abbr string, help string) *bool {
+func (c *command) Flag(val bool, name string, abbr string, help string) *bool {
 	if abbr != "" {
-		parser.gotAbbr = true
-		parser.usgShortFlags += abbr
+		c.gotAbbr = true
+		c.usgShortFlags += abbr
 	} else if name != "" {
-		parser.usgFlags += "[" + ColorFlag + "--" + name + End + "] "
+		c.usgFlags += "[" + ColorFlag + "--" + name + End + "] "
 	}
 
 	checkLength := 0
@@ -50,12 +50,12 @@ func (parser *command) Flag(val bool, name string, abbr string, help string) *bo
 	if name != "" {
 		checkLength += 2 + len(name)
 	}
-	if checkLength > parser.longest {
-		parser.longest = checkLength
+	if checkLength > c.longest {
+		c.longest = checkLength
 	}
 
-	parser.flags = append(parser.flags, &flag{val, name, abbr, help})
-	return &parser.flags[len(parser.flags)-1].val
+	c.flags = append(c.flags, &flag{val, name, abbr, help})
+	return &c.flags[len(c.flags)-1].val
 }
 
 type option struct {
@@ -68,9 +68,9 @@ type option struct {
 }
 
 // Option adds an option.
-func (parser *command) Option(val interface{}, name string, abbr string, help string, meta string, mandatory bool) *interface{} {
+func (c *command) Option(val interface{}, name string, abbr string, help string, meta string, mandatory bool) *interface{} {
 	if abbr != "" {
-		parser.gotAbbr = true
+		c.gotAbbr = true
 	}
 
 	// Information for Glossary
@@ -82,31 +82,31 @@ func (parser *command) Option(val interface{}, name string, abbr string, help st
 		checkLength += 2 + len(name)
 	}
 	checkLength += 1 + len(meta)
-	if checkLength > parser.longest {
-		parser.longest = checkLength
+	if checkLength > c.longest {
+		c.longest = checkLength
 	}
 	// ----
 
 	// generate usage string
 	if mandatory {
-		parser.usg += ColorOption + "-" + End
+		c.usg += ColorOption + "-" + End
 	} else {
-		parser.usg += "[" + ColorOption + "-" + End
+		c.usg += "[" + ColorOption + "-" + End
 	}
 	if abbr != "" {
-		parser.usg += ColorOption + abbr + End + "=" + ColorMeta + meta + End
+		c.usg += ColorOption + abbr + End + "=" + ColorMeta + meta + End
 	} else if name != "" {
-		parser.usg += ColorOption + "-" + name + End + "=" + ColorMeta + meta + End
+		c.usg += ColorOption + "-" + name + End + "=" + ColorMeta + meta + End
 	}
 	if mandatory {
-		parser.usg += " "
+		c.usg += " "
 	} else {
-		parser.usg += "] "
+		c.usg += "] "
 	}
 	// -------
 
-	parser.options = append(parser.options, &option{val, name, abbr, help, meta, mandatory})
-	return &parser.options[len(parser.options)-1].val
+	c.options = append(c.options, &option{val, name, abbr, help, meta, mandatory})
+	return &c.options[len(c.options)-1].val
 }
 
 func (o *option) set(s string) {
