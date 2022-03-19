@@ -410,3 +410,16 @@ func Test20(t *testing.T) {
 		t.Errorf("got %v; want %v", got3, want3)
 	}
 }
+
+func Test21(t *testing.T) {
+	o1 := New("main")
+	o2 := New("sub")
+	verbose := o2.Flag("verbose", "v", "")
+	o1.Add(o2)
+	want1 := true
+	o1.Parse([]string{"sub", "-v"})
+	got1 := *verbose
+	if got1 != want1 {
+		t.Errorf("got %v; want %v", got1, want1)
+	}
+}
