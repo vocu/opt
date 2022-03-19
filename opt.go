@@ -7,7 +7,7 @@ import (
 
 var NoHelp bool
 
-type command struct {
+type Command struct {
 	parsedDashDash bool
 	parsedArgs     uint64
 
@@ -18,7 +18,7 @@ type command struct {
 	usgFlags       string
 	usg            string
 
-	commands []*command
+	commands []*Command
 	flags    []*flag
 	options  []*option
 
@@ -34,12 +34,12 @@ type command struct {
 	Meta    string
 }
 
-func New(name string) *command {
-	return &command{Name: name, MaxArgs: uint64(18446744073709551615)}
+func New(name string) *Command {
+	return &Command{Name: name, MaxArgs: uint64(18446744073709551615)}
 }
 
-func (c *command) Command(name string) *command {
-	c.commands = append(c.commands, &command{Name: name, MaxArgs: uint64(18446744073709551615)})
+func (c *Command) Add(name string) *Command {
+	c.commands = append(c.commands, &Command{Name: name, MaxArgs: uint64(18446744073709551615)})
 	if len(name) > c.longestCommand {
 		c.longestCommand = len(name)
 	}
@@ -62,7 +62,7 @@ func missingArgument() {
 	Error("missing argument(s)")
 }
 
-func (c *command) Parse(args []string) {
+func (c *Command) Parse(args []string) {
 OUTER:
 	for i := 0; i < len(args); i++ {
 		if c.parsedDashDash {
@@ -197,6 +197,6 @@ OUTER:
 	}
 }
 
-func (c *command) Run() {
+func (c *Command) Run() {
 	c.Parse(os.Args[1:])
 }

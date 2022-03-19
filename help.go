@@ -15,7 +15,7 @@ var ColorCommand = Yellow
 var ColorArgs = Magenta
 
 // Usage prints usage text to os.Stdout.
-func (c *command) Usage() {
+func (c *Command) Usage() {
 	Println(ColorMenu+"Usage:"+End, 0)
 	s := strings.Repeat(" ", GlossaryOffset)
 	s += c.Name + " "
@@ -62,7 +62,7 @@ func (c *command) Usage() {
 }
 
 // Glossary prints glossary to os.Stdout.
-func (c *command) Glossary() {
+func (c *Command) Glossary() {
 	if c.Version != "" && c.longest == 0 {
 		c.longest = len("--version")
 	}
@@ -170,7 +170,7 @@ func (c *command) Glossary() {
 }
 
 // Commands prints command help text to os.Stdout.
-func (c *command) Commands() {
+func (c *Command) Commands() {
 	if len(c.commands) > 0 {
 		Println(ColorMenu+"Commands: "+End, 0)
 		for i := range c.commands {
@@ -186,7 +186,7 @@ func (c *command) Commands() {
 }
 
 // Help prints help text to os.Stdout and exits.
-func (c *command) Help() {
+func (c *Command) Help() {
 
 	// Print Description
 	if c.Long != "" {

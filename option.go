@@ -35,7 +35,7 @@ type flag struct {
 }
 
 // Flag adds a flag.
-func (c *command) Flag(name string, abbr string, help string) *bool {
+func (c *Command) Flag(name string, abbr string, help string) *bool {
 	if abbr != "" {
 		c.gotAbbr = true
 		c.usgShortFlags += abbr
@@ -68,7 +68,7 @@ type option struct {
 }
 
 // Option adds an option.
-func (c *command) Option(val interface{}, name string, abbr string, help string, meta string, mandatory bool) *interface{} {
+func (c *Command) Option(val interface{}, name string, abbr string, help string, meta string, mandatory bool) *interface{} {
 	if abbr != "" {
 		c.gotAbbr = true
 	}
