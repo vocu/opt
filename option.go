@@ -40,7 +40,7 @@ func (c *command) Flag(name string, abbr string, help string) *bool {
 		c.gotAbbr = true
 		c.usgShortFlags += abbr
 	} else if name != "" {
-		c.usgFlags += "[" + ColorFlag + "--" + name + End + "] "
+		c.usgFlags += "[" + ColorOption + "--" + name + End + "] "
 	}
 
 	checkLength := 0
