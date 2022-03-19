@@ -197,6 +197,6 @@ OUTER:
 	}
 }
 
-func (parser *command) Run() {
-	parser.Parse(os.Args[1:])
+func (c *command) Run() {
+	c.Parse(os.Args[1:])
 }
