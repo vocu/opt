@@ -38,12 +38,19 @@ func New(name string) *Command {
 	return &Command{Name: name, MaxArgs: uint64(18446744073709551615)}
 }
 
-func (c *Command) Add(name string) *Command {
+/*func (c *Command) Command(name string) *Command {
 	c.commands = append(c.commands, &Command{Name: name, MaxArgs: uint64(18446744073709551615)})
 	if len(name) > c.longestCommand {
 		c.longestCommand = len(name)
 	}
 	return c.commands[len(c.commands)-1]
+}*/
+
+func (c *Command) Add(nc *Command) {
+	c.commands = append(c.commands, nc)
+	if len(nc.Name) > c.longestCommand {
+		c.longestCommand = len(nc.Name)
+	}
 }
 
 func tooManyArguments() {
