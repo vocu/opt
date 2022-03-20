@@ -27,7 +27,7 @@ func (c *Command) Usage() {
 		if c.Meta != "" {
 			s += c.Meta + " "
 		} else {
-			s += "[" + ColorArgs + "args" + End + "] "
+			s += "[" + ColorArgs + "arguments" + End + "] "
 		}
 	}
 
