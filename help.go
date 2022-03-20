@@ -180,7 +180,7 @@ func (c *Command) Help() {
 
 	if len(c.commands) > 0 && !NoHelp {
 		fmt.Println()
-		Println("Run \""+c.Name+" [command] --help\" for more information on a command.", 0)
+		fmt.Println("Run \"" + c.Name + " [command] --help\" for more information on a command.")
 	}
 
 	os.Exit(0)
