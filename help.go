@@ -20,45 +20,22 @@ func (c *Command) Usage() {
 	s := strings.Repeat(" ", GlossaryOffset)
 	s += c.Name + " "
 
-	// TEST
-	//s += "[" + ColorOption + "options" + End + "] [" + ColorCommand + "command" + End + "] [" + ColorArgs + "args" + End + "]"
-	// maybe go mod <command> [arguments]
-	// maybe prog [options] <command>
-	//Println(s, GlossaryOffset)
-	//return
-	// TEST END
-
-	if c.usgShortFlags != "" {
-		s += "[" + ColorOption + "-" + c.usgShortFlags + End + "] "
-	}
-
-	s += c.usgFlags
-
-	if !NoHelp {
-		s += "[" + ColorOption + "--" + "help" + End + "] "
-	}
-	if c.Version != "" {
-		s += "[" + ColorOption + "--" + "version" + End + "] "
-	}
-
-	s += c.usg
-
-	if c.Meta != "" {
-		s += c.Meta + " "
+	s += "[" + ColorOption + "options" + End + "] "
+	if len(c.commands) != 0 {
+		s += "[" + ColorCommand + "command" + End + "]"
 	} else {
-		if len(c.commands) > 0 {
-			s += "<" + ColorCommand + "command" + End + "> ... "
+		if c.Meta != "" {
+			s += c.Meta + " "
 		} else {
 			if c.MinArgs > 0 {
-				s += ColorArgs + "<args>" + End + "... "
+				s += ColorArgs + "arguments" + End
 			} else {
-				s += "[" + ColorArgs + "<args>" + End + "]... "
+				s += "[" + ColorArgs + "arguments" + End + "]"
 			}
 		}
 	}
 
-	//Println(s[:len(s)-1], 7)
-	Println(s[:len(s)-1], GlossaryOffset)
+	Println(s, GlossaryOffset)
 }
 
 // Glossary prints glossary to os.Stdout.
@@ -87,8 +64,8 @@ func (c *Command) Glossary() {
 		if c.flags[i].abbr != "" && c.flags[i].name == "" {
 			s += ColorOption + "-" + c.flags[i].abbr + End
 			s += strings.Repeat(" ", c.longest-2)
-			s += "   " + c.flags[i].help
-			Println(s, GlossaryOffset)
+			s += "   "
+			Println(s+c.flags[i].help, len(RemoveColor(s)))
 		}
 	}
 
@@ -98,8 +75,8 @@ func (c *Command) Glossary() {
 		if c.options[i].abbr != "" && c.options[i].name == "" {
 			s += ColorOption + "-" + c.options[i].abbr + End + "=" + ColorMeta + c.options[i].meta + End
 			s += strings.Repeat(" ", c.longest-2-1-len(c.options[i].meta))
-			s += "   " + c.options[i].help
-			Println(s, GlossaryOffset)
+			s += "   "
+			Println(s+c.flags[i].help, len(RemoveColor(s)))
 		}
 	}
 
@@ -109,8 +86,8 @@ func (c *Command) Glossary() {
 		if c.flags[i].abbr != "" && c.flags[i].name != "" {
 			s += ColorOption + "-" + c.flags[i].abbr + End + "|" + ColorOption + "--" + c.flags[i].name + End
 			s += strings.Repeat(" ", c.longest-dyn-1-len(c.flags[i].abbr)-len(c.flags[i].name))
-			s += "   " + c.flags[i].help
-			Println(s, GlossaryOffset)
+			s += "   "
+			Println(s+c.flags[i].help, len(RemoveColor(s)))
 		}
 	}
 
@@ -120,8 +97,8 @@ func (c *Command) Glossary() {
 		if c.options[i].abbr != "" && c.options[i].name != "" {
 			s += ColorOption + "-" + c.options[i].abbr + End + "|" + ColorOption + "--" + c.options[i].name + End + "=" + ColorMeta + c.options[i].meta + End
 			s += strings.Repeat(" ", c.longest-dyn-1-len(c.options[i].abbr)-len(c.options[i].name)-1-len(c.options[i].meta))
-			s += "   " + c.options[i].help
-			Println(s, GlossaryOffset)
+			s += "   "
+			Println(s+c.flags[i].help, len(RemoveColor(s)))
 		}
 	}
 
@@ -132,8 +109,8 @@ func (c *Command) Glossary() {
 			s += strings.Repeat(" ", dyn)
 			s += ColorOption + "--" + c.options[i].name + End + "=" + ColorMeta + c.options[i].meta + End
 			s += strings.Repeat(" ", c.longest-dyn-2-len(c.options[i].name)-1-len(c.options[i].meta))
-			s += "   " + c.options[i].help
-			Println(s, GlossaryOffset)
+			s += "   "
+			Println(s+c.flags[i].help, len(RemoveColor(s)))
 		}
 	}
 
@@ -144,8 +121,8 @@ func (c *Command) Glossary() {
 			s += strings.Repeat(" ", dyn)
 			s += ColorOption + "--" + c.flags[i].name + End
 			s += strings.Repeat(" ", c.longest-dyn-2-len(c.flags[i].name))
-			s += "   " + c.flags[i].help
-			Println(s, GlossaryOffset)
+			s += "   "
+			Println(s+c.flags[i].help, len(RemoveColor(s)))
 		}
 	}
 
@@ -154,8 +131,8 @@ func (c *Command) Glossary() {
 		s += strings.Repeat(" ", dyn)
 		s += ColorOption + "--help" + End
 		s += strings.Repeat(" ", c.longest-dyn-len("--help"))
-		s += "   " + "Show this help"
-		Println(s, GlossaryOffset)
+		s += "   "
+		Println(s+"Show this help", len(RemoveColor(s)))
 	}
 
 	if c.Version != "" {
@@ -163,8 +140,8 @@ func (c *Command) Glossary() {
 		s += strings.Repeat(" ", dyn)
 		s += ColorOption + "--version" + End
 		s += strings.Repeat(" ", c.longest-dyn-len("--version"))
-		s += "   " + "Show version information"
-		Println(s, GlossaryOffset)
+		s += "   "
+		Println(s+"Show version information", len(RemoveColor(s)))
 	}
 
 }
@@ -203,7 +180,7 @@ func (c *Command) Help() {
 
 	if len(c.commands) > 0 && !NoHelp {
 		fmt.Println()
-		Println("Run \""+c.Name+" <command> --help\" for more information on a command.", 0)
+		Println("Run \""+c.Name+" [command] --help\" for more information on a command.", 0)
 	}
 
 	os.Exit(0)
