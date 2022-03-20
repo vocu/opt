@@ -22,16 +22,20 @@ func (c *Command) Usage() {
 
 	s += "[" + ColorOption + "options" + End + "] "
 	if len(c.commands) != 0 {
-		s += "[" + ColorCommand + "command" + End + "] "
+		s += "[" + ColorCommand + "command" + End + "]"
 	} else {
 		if c.Meta != "" {
 			s += c.Meta + " "
 		} else {
-			s += "[" + ColorArgs + "arguments" + End + "] "
+			if c.MinArgs > 0 {
+				s += ColorArgs + "arguments" + End
+			} else {
+				s += "[" + ColorArgs + "arguments" + End + "]"
+			}
 		}
 	}
 
-	Println(s[:len(s)-1], GlossaryOffset)
+	Println(s, GlossaryOffset)
 }
 
 // Glossary prints glossary to os.Stdout.
@@ -176,7 +180,7 @@ func (c *Command) Help() {
 
 	if len(c.commands) > 0 && !NoHelp {
 		fmt.Println()
-		Println("Run \""+c.Name+" <command> --help\" for more information on a command.", 0)
+		Println("Run \""+c.Name+" [command] --help\" for more information on a command.", 0)
 	}
 
 	os.Exit(0)

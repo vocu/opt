@@ -14,9 +14,6 @@ type Command struct {
 	gotAbbr        bool
 	longest        int
 	longestCommand int
-	usgShortFlags  string
-	usgFlags       string
-	usg            string
 
 	commands []*Command
 	flags    []*flag

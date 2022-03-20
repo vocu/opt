@@ -38,9 +38,6 @@ type flag struct {
 func (c *Command) Flag(name string, abbr string, help string) *bool {
 	if abbr != "" {
 		c.gotAbbr = true
-		c.usgShortFlags += abbr
-	} else if name != "" {
-		c.usgFlags += "[" + ColorOption + "--" + name + End + "] "
 	}
 
 	checkLength := 0
@@ -86,24 +83,6 @@ func (c *Command) Option(val interface{}, name string, abbr string, help string,
 		c.longest = checkLength
 	}
 	// ----
-
-	// generate usage string
-	if mandatory {
-		c.usg += ColorOption + "-" + End
-	} else {
-		c.usg += "[" + ColorOption + "-" + End
-	}
-	if abbr != "" {
-		c.usg += ColorOption + abbr + End + "=" + ColorMeta + meta + End
-	} else if name != "" {
-		c.usg += ColorOption + "-" + name + End + "=" + ColorMeta + meta + End
-	}
-	if mandatory {
-		c.usg += " "
-	} else {
-		c.usg += "] "
-	}
-	// -------
 
 	c.options = append(c.options, &option{val, name, abbr, help, meta, mandatory})
 	return &c.options[len(c.options)-1].val
