@@ -20,44 +20,17 @@ func (c *Command) Usage() {
 	s := strings.Repeat(" ", GlossaryOffset)
 	s += c.Name + " "
 
-	// TEST
-	//s += "[" + ColorOption + "options" + End + "] [" + ColorCommand + "command" + End + "] [" + ColorArgs + "args" + End + "]"
-	// maybe go mod <command> [arguments]
-	// maybe prog [options] <command>
-	//Println(s, GlossaryOffset)
-	//return
-	// TEST END
-
-	if c.usgShortFlags != "" {
-		s += "[" + ColorOption + "-" + c.usgShortFlags + End + "] "
-	}
-
-	s += c.usgFlags
-
-	if !NoHelp {
-		s += "[" + ColorOption + "--" + "help" + End + "] "
-	}
-	if c.Version != "" {
-		s += "[" + ColorOption + "--" + "version" + End + "] "
-	}
-
-	s += c.usg
-
-	if c.Meta != "" {
-		s += c.Meta + " "
+	s += "[" + ColorOption + "options" + End + "] "
+	if len(c.commands) != 0 {
+		s += "[" + ColorCommand + "command" + End + "] "
 	} else {
-		if len(c.commands) > 0 {
-			s += "<" + ColorCommand + "command" + End + "> ... "
+		if c.Meta != "" {
+			s += c.Meta + " "
 		} else {
-			if c.MinArgs > 0 {
-				s += ColorArgs + "<args>" + End + "... "
-			} else {
-				s += "[" + ColorArgs + "<args>" + End + "]... "
-			}
+			s += "[" + ColorArgs + "args" + End + "] "
 		}
 	}
 
-	//Println(s[:len(s)-1], 7)
 	Println(s[:len(s)-1], GlossaryOffset)
 }
 
