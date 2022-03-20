@@ -38,7 +38,7 @@ const (
 )
 
 var NoColor bool
-var MaxWidth uint64 = 60
+var MaxWidth uint64 = 50
 
 // Error prints an error message and causes the current program to exit with a status code indicating error.
 func Error(a ...interface{}) {
@@ -88,27 +88,32 @@ func EColor(c string, a ...interface{}) error {
 	return nil
 }
 
+func RemoveColor(s string) string {
+	s = strings.ReplaceAll(s, Black, "")
+	s = strings.ReplaceAll(s, Red, "")
+	s = strings.ReplaceAll(s, Green, "")
+	s = strings.ReplaceAll(s, Yellow, "")
+	s = strings.ReplaceAll(s, Blue, "")
+	s = strings.ReplaceAll(s, Magenta, "")
+	s = strings.ReplaceAll(s, Cyan, "")
+	s = strings.ReplaceAll(s, White, "")
+
+	s = strings.ReplaceAll(s, BBlack, "")
+	s = strings.ReplaceAll(s, BRed, "")
+	s = strings.ReplaceAll(s, BGreen, "")
+	s = strings.ReplaceAll(s, BYellow, "")
+	s = strings.ReplaceAll(s, BBlue, "")
+	s = strings.ReplaceAll(s, BMagenta, "")
+	s = strings.ReplaceAll(s, BCyan, "")
+	s = strings.ReplaceAll(s, BWhite, "")
+
+	s = strings.ReplaceAll(s, End, "")
+	return s
+}
+
 func Println(s string, offset int) {
 	if NoColor {
-		s = strings.ReplaceAll(s, Black, "")
-		s = strings.ReplaceAll(s, Red, "")
-		s = strings.ReplaceAll(s, Green, "")
-		s = strings.ReplaceAll(s, Yellow, "")
-		s = strings.ReplaceAll(s, Blue, "")
-		s = strings.ReplaceAll(s, Magenta, "")
-		s = strings.ReplaceAll(s, Cyan, "")
-		s = strings.ReplaceAll(s, White, "")
-
-		s = strings.ReplaceAll(s, BBlack, "")
-		s = strings.ReplaceAll(s, BRed, "")
-		s = strings.ReplaceAll(s, BGreen, "")
-		s = strings.ReplaceAll(s, BYellow, "")
-		s = strings.ReplaceAll(s, BBlue, "")
-		s = strings.ReplaceAll(s, BMagenta, "")
-		s = strings.ReplaceAll(s, BCyan, "")
-		s = strings.ReplaceAll(s, BWhite, "")
-
-		s = strings.ReplaceAll(s, End, "")
+		s = RemoveColor(s)
 	}
 
 	lines := strings.Split(s, "\n")
@@ -124,30 +129,14 @@ func Println(s string, offset int) {
 			fmt.Print(word)
 
 			// Replace ansi SGR characters so we dont count them
-			word = strings.ReplaceAll(word, Black, "")
-			word = strings.ReplaceAll(word, Red, "")
-			word = strings.ReplaceAll(word, Green, "")
-			word = strings.ReplaceAll(word, Yellow, "")
-			word = strings.ReplaceAll(word, Blue, "")
-			word = strings.ReplaceAll(word, Magenta, "")
-			word = strings.ReplaceAll(word, Cyan, "")
-			word = strings.ReplaceAll(word, White, "")
+			word = RemoveColor(word)
 
-			word = strings.ReplaceAll(word, BBlack, "")
-			word = strings.ReplaceAll(word, BRed, "")
-			word = strings.ReplaceAll(word, BGreen, "")
-			word = strings.ReplaceAll(word, BYellow, "")
-			word = strings.ReplaceAll(word, BBlue, "")
-			word = strings.ReplaceAll(word, BMagenta, "")
-			word = strings.ReplaceAll(word, BCyan, "")
-			word = strings.ReplaceAll(word, BWhite, "")
-
-			word = strings.ReplaceAll(word, End, "")
 			currentOffset += len(word)
 
 			if currentOffset > int(MaxWidth) {
 				// So we dont print one \n too much
-				if i != len(lines)-1 {
+				//if i != len(lines)-1 || j != len(words)-1 {
+				if j != len(words)-1 {
 					fmt.Print("\n")
 					fmt.Print(strings.Repeat(" ", offset))
 				}
